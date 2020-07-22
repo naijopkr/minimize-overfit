@@ -108,3 +108,36 @@ def example_two():
     model_loss.plot()
 
 example_two()
+
+
+# Exampler 3: Adding in DropOut Layers
+from tensorflow.keras.layers import Dropout
+
+def example_three():
+    model = Sequential()
+    model.add(Dense(30, activation='relu'))
+    model.add(Dropout(0.5))
+
+    model.add(Dense(15, activation='relu'))
+    model.add(Dropout(0.5))
+
+    model.add(Dense(1, activation='sigmoid'))
+    model.compile(loss='binary_crossentropy', optimizer='adam')
+
+    model.fit(
+        x=X_train,
+        y=y_train,
+        epochs=600,
+        validation_data=(X_test, y_test),
+        verbose=1,
+        callbacks=[early_stop]
+    )
+
+    model_loss = pd.DataFrame(model.history.history)
+
+    plt.figure(figsize=(12, 8))
+    model_loss.plot()
+
+    return model
+
+dropout_model = example_three()
