@@ -74,3 +74,37 @@ def example_one():
     model_loss.plot()
 
 example_one()
+
+
+# Example 2: Early stopping
+from tensorflow.keras.callbacks import EarlyStopping
+
+early_stop = EarlyStopping(
+    monitor='val_loss',
+    mode='min',
+    verbose=1,
+    patience=25
+)
+
+def example_two():
+    model = Sequential()
+    model.add(Dense(30, activation='relu'))
+    model.add(Dense(15, activation='relu'))
+    model.add(Dense(1, activation='sigmoid'))
+    model.compile(loss='binary_crossentropy', optimizer='adam')
+
+    model.fit(
+        x=X_train,
+        y=y_train,
+        epochs=600,
+        validation_data=(X_test, y_test),
+        verbose=1,
+        callbacks=[early_stop]
+    )
+
+    model_loss = pd.DataFrame(model.history.history)
+
+    plt.figure(figsize=(12, 8))
+    model_loss.plot()
+
+example_two()
