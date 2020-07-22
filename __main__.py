@@ -138,6 +138,13 @@ def example_three():
     plt.figure(figsize=(12, 8))
     model_loss.plot()
 
-    return model
+    return model.predict_classes(X_test)
 
-dropout_model = example_three()
+
+# Evaluation
+from sklearn.metrics import classification_report, confusion_matrix
+
+y_pred = example_three()
+
+print(classification_report(y_test, y_pred))
+print(confusion_matrix(y_test, y_pred))
